@@ -18,6 +18,8 @@ namespace GraduationTracker
                 if (id == students[i].Id)
                 {
                     student = students[i];
+                    //FIX: add break to stop loop when student is found
+                    break;
                 }
             }
             return student;
@@ -33,6 +35,9 @@ namespace GraduationTracker
                 if (id == diplomas[i].Id)
                 {
                     diploma = diplomas[i];
+
+                    //FIX: add break to stop loop when diploma is found
+                    break;
                 }
             }
             return diploma;
@@ -49,6 +54,9 @@ namespace GraduationTracker
                 if (id == requirements[i].Id)
                 {
                     requirement = requirements[i];
+
+                    //FIX: add break to stop loop when requirement is found
+                    break;
                 }
             }
             return requirement;

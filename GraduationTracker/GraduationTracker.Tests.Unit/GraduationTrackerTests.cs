@@ -11,16 +11,16 @@ namespace GraduationTracker.Tests.Unit
         [TestMethod]
         public void TestHasCredits()
         {
-            var tracker = new GraduationTracker();
+            GraduationTracker tracker = new GraduationTracker();
 
-            var diploma = new Diploma
+            Diploma diploma = new Diploma
             {
                 Id = 1,
                 Credits = 4,
                 Requirements = new int[] { 100, 102, 103, 104 }
             };
 
-            var students = new[]
+            Student[] students = new[]
             {
                new Student
                {
@@ -65,21 +65,78 @@ namespace GraduationTracker.Tests.Unit
                     new Course{Id = 3, Name = "Literature", Mark=40 },
                     new Course{Id = 4, Name = "Physichal Education", Mark=40 }
                 }
+            },
+             new Student
+            {
+                 //FIX:  Student with less than 4 credits
+                Id = 5,
+                Courses = new Course[]
+                {
+                    new Course{Id = 1, Name = "Math", Mark=40 },
+                    new Course{Id = 2, Name = "Science", Mark=40 },
+                    new Course{Id = 3, Name = "Literature", Mark=40 }
+                }
+            },
+            //FIX: Student who dont pass a course
+            new Student
+            {
+                Id = 6,
+                Courses = new Course[]
+                {
+                    new Course{Id = 1, Name = "Math", Mark=100 },
+                    new Course{Id = 2, Name = "Science", Mark=40 },
+                    new Course{Id = 3, Name = "Literature", Mark=60 },
+                    new Course{Id = 4, Name = "Physichal Education", Mark=100 }
+                }
+            },
+            //FIX: Student who has another course that not required for diploma
+            new Student
+            {
+                Id = 7,
+                Courses = new Course[]
+                {
+                    new Course{Id = 1, Name = "Math", Mark=100 },
+                    new Course{Id = 2, Name = "Science", Mark=40 },
+                    new Course{Id = 3, Name = "Literature", Mark=60 },
+                    new Course{Id = 5, Name = "Global Education", Mark=100 }
+                }
             }
 
-
-            //tracker.HasGraduated()
         };
-            
-            var graduated = new List<Tuple<bool, STANDING>>();
 
-            foreach(var student in students)
+            List<Tuple<bool, STANDING, int>> graduated = new List<Tuple<bool, STANDING, int>>();
+
+            foreach(Student student in students)
             {
                 graduated.Add(tracker.HasGraduated(diploma, student));      
             }
 
-            
-            Assert.IsFalse(graduated.Any());
+            //check if theres is at least one student that not passed, 
+            //since we have one student with all marks under 50
+            Assert.IsTrue(graduated.Any(x=>!x.Item1));
+
+            //check if theres is at least one student that passed
+            Assert.IsTrue(graduated.Any(x => x.Item1));
+
+            //check if theres is at least one student with MagnaCumLaude standing
+            Assert.IsTrue(graduated.Any(x => x.Item2 == STANDING.MagnaCumLaude));
+
+            //check if theres is at least one student with SumaCumLaude standing
+            Assert.IsTrue(graduated.Any(x => x.Item2 == STANDING.SumaCumLaude));
+
+            //check if theres is at least one student with Average standing
+            Assert.IsTrue(graduated.Any(x => x.Item2 == STANDING.Average));
+
+            //check if theres is at least one student with Remedial standing
+            Assert.IsTrue(graduated.Any(x => x.Item2 == STANDING.Remedial));
+
+            //check if no students with None standing
+            Assert.IsFalse(graduated.Any(x => x.Item2 == STANDING.None));
+
+            //check if theres is no student pass with less than diploma.Requirements credits
+            Assert.IsFalse(graduated.Any(x => x.Item1 && x.Item3 < diploma.Requirements.Length));
+
+
 
         }
 
