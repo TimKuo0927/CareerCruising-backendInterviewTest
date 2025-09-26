@@ -1,20 +1,53 @@
-A junior developer has just accomplished a task suspiciously fast... and went for lunch.
+# GraduationTracker
 
-There are now unit tests breaking on the build server and only you have the skills to fix it.
+## Overview
+**GraduationTracker** is a **C#** project that determines whether a student has graduated based on their course marks and a diploma's requirements.  
+It calculates the student's academic standing (e.g., **Remedial**, **Average**, **MagnaCumLaude**, **SumaCumLaude**) and ensures all graduation criteria are met, including minimum credits and passing all required courses.
 
-You should 
+## Features
+-  Checks if a student meets all diploma requirements  
+-  Calculates total credits earned from passed courses  
+-  Determines academic standing based on average marks  
+-  Provides detailed graduation results  
 
-  - Fix the broken unit test
-  - Make sure there is adequate test coverage
-  - Make sure all code is clean and follows best practices
-  - Review the code for additional logic errors
+## Prerequisites
+- .NET 8 SDK
+- Visual Studio 2022 or later (recommended)
 
-All joking aside, there is no need to finish this in the span of a lunch hour. 
+## How to Run
 
-The test is so you can show us what clean code looks like. Clean it up as best you can!
+### 1️ Clone the Repository
+```bash
+git clone <your-repo-url>
+cd GraduationTracker
+```
 
-You will be joining a team that believes in SOLID design principles. We also favour declarative over imperative programming. And we generally use rich service models, with thin domain models, which looks very much like SOA over REST.
+### 2 Build the Solution
+Open the solution in Visual Studio 2022 and build, or use the command line:
+```bash
+dotnet build
+```
 
-Submissions that follow these principles will be favoured since you will fit right in with the current team. If there is a part of the test that blocks you from completing it, then put some comments explaining why it was blocking, and what you would have done if the obstacle was removed.
+### 3 Run the Unit Tests
+Use Visual Studio's Test Explorer, or run from the command line:
+```bash
+dotnet test
+```
 
-Good Luck!
+### 4 Usage
+The main logic is in the GraduationTracker class.
+You can use the HasGraduated method to check a student's graduation status:
+```bash
+var tracker = new GraduationTracker();
+var result = tracker.HasGraduated(diploma, student);
+
+// result.Item1: bool    -> graduated or not
+// result.Item2: STANDING -> academic standing
+// result.Item3: int     -> credits earned
+```
+
+## Project Structure
+```bash
+GraduationTracker/             # Core logic and models
+GraduationTracker.Tests.Unit/   # Unit tests for graduation logic
+```
